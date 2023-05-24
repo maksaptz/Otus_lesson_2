@@ -81,7 +81,7 @@ Vagrant.configure("2") do |config|
             parted /dev/md0 mkpart primary ext4 60% 80%
             parted /dev/md0 mkpart primary ext4 80% 100%
             for i in $(seq 1 5); do sudo mkfs.ext4 /dev/md0p$i; done #Цикл который создает файловую систему ext4 на дисках
-            mkdir -p /raid/part{1,2,3,4,5} #Создаем папку для будущего монтирования
+            mkdir -p /raid/part{1,2,3,4,5} #Создаем папки для будущего монтирования
             for i in $(seq 1 5); do mount /dev/md0p$i /raid/part$i; done #Монтируем каждый раздел в соответствующую папку
             echo "#NEW DEVICE" >> /etc/fstab #При помощи цикла настраиваем автомонтирование разделов
             for i in $(seq 1 5); do echo `sudo blkid /dev/md0p$i | awk '{print $2}'` /raid/part$i ext4 defaults 0 0 >> /etc/fstab; done
